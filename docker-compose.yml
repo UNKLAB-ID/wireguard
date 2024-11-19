@@ -1,25 +1,30 @@
+networks:
+  unklab:
+    external: true
+
 volumes:
   etc_wireguard:
 
 services:
   wg-easy:
+    image: ghcr.io/wg-easy/wg-easy
+    pull_policy: always
+    container_name: wireguard
+    restart: unless-stopped
+    volumes:
+      - etc_wireguard:/etc/wireguard
+    networks:
+      - unklab
     environment:
       - LANG=en
-      - WG_HOST=wireguard.unklab.id
+      - WG_HOST=${WG_HOST}
       - PASSWORD_HASH='$2a$12$5RJI3BYitvBXWDucbFgGPe642lfm5vgdsadQnNVs5vm8yIS4wWbzq'
       - WG_DEFAULT_ADDRESS=10.7.0.x
       - WG_DEFAULT_DNS=1.1.1.1
       - UI_TRAFFIC_STATS=true
       - UI_CHART_TYPE=1
-
-    image: ghcr.io/wg-easy/wg-easy
-    container_name: wireguard
-    volumes:
-      - etc_wireguard:/etc/wireguard
     ports:
       - "51820:51820/udp"
-      - "51821:51821/tcp"
-    restart: unless-stopped
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
