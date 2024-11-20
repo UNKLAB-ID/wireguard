@@ -11,8 +11,6 @@ services:
     pull_policy: always
     container_name: wireguard
     restart: unless-stopped
-    volumes:
-      - etc_wireguard:/etc/wireguard
     networks:
       - unklab
     environment:
