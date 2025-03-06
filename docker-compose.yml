@@ -1,7 +1,3 @@
-networks:
-  unklab:
-    external: true
-
 volumes:
   etc_wireguard:
 
@@ -11,8 +7,6 @@ services:
     pull_policy: always
     container_name: wireguard
     restart: unless-stopped
-    networks:
-      - unklab
     environment:
       - LANG=en
       - WG_HOST=${WG_HOST}
@@ -23,6 +17,7 @@ services:
       - UI_CHART_TYPE=1
     ports:
       - "51820:51820/udp"
+      - "51821:51821"
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
